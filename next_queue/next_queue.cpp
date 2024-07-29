@@ -20,14 +20,12 @@ namespace nq {
     }
 
     int get() {
-        return next_queue.front();
-    }
-
-    void pop() {
+        int tmp = next_queue.front();
         next_queue.pop();
         if (next_queue.size() < 5) {
             add_new_pack();
         }
+        return tmp;
     }
 
 }  // namespace nq

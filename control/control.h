@@ -14,4 +14,5 @@ namespace gm {
     void command_left_rotate();
     void command_right_rotate();
     void command_drop();
+    void command_hold();
     }  // namespace gm

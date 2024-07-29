@@ -14,7 +14,8 @@ namespace gm {
         {KEY_LEFT,command_left},
         {KEY_DOWN,command_down},
         {KEY_RIGHT,command_right},
-        {KEY_DROP,command_drop}
+        {KEY_DROP,command_drop},
+        {KEY_HOLD,command_hold}
     };
 
     char getch() {
@@ -68,6 +69,10 @@ namespace gm {
 
     void command_drop(){
         drop();
+    }
+
+    void command_hold(){
+        hold();
     }
 
 }  // namespace gm

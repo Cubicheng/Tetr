@@ -9,6 +9,8 @@ namespace gm{
     //game var
     extern bool running;
     extern bool bottom;
+    extern int hold_id;
+    extern bool holded;
     extern Piece one_piece;
 
     
@@ -22,7 +24,7 @@ namespace gm{
     void render();
 
     // game method
-    Piece pick();
+    void pick();
     void quit();
     void init();
     void process();
@@ -32,6 +34,7 @@ namespace gm{
     void left_rotate();
     void right_rotate();
     void drop();
+    void hold();
     void add_piece_to_playfield();
     void clear_row();
 

@@ -1,6 +1,6 @@
 #include "game.h"
-#include "utils.h"
 #include "next_queue.h"
+#include "utils.h"
 
 namespace gm {
 
@@ -8,49 +8,62 @@ namespace gm {
     Piece one_piece;
     Matrix playfield;
     Matrix frame;
+    int cur_id;
+    int hold_id;
+    bool holded;
     std::chrono::microseconds duration;
-    std::map<int,Tetromino> id{
-        {0,I},
-        {1,J},
-        {2,L},
-        {3,O},
-        {4,S},
-        {5,T},
-        {6,Z}
-    };
+    std::map<int, Tetromino> id{{0, I}, {1, J}, {2, L}, {3, O},
+                                {4, S}, {5, T}, {6, Z}};
 
     void init() {
         nq::init();
         running = true;
         // playfield[x][y] x=0~9 y=0~21
-        playfield = Matrix(10, std::vector<int>(22, 0));
+        playfield = Matrix(22, std::vector<int>(10, 0));
         duration = 500ms;
         frame = playfield;
-        one_piece = pick();
+        cur_id = nq::get();
+        one_piece = Piece(id[cur_id],4,20,0,false,std::make_shared<Matrix>(playfield));
+        hold_id = -1;
+        holded = false;
     }
 
-    void add_piece_to_playfield(){
+    void add_piece_to_playfield() {
         auto [x, y] = one_piece.get_xy();
-        while (one_piece.test(x, --y));
+        while (one_piece.test(x, --y))
+            ;
         y++;
         for (int i = 0; i < 4; i++) {
             auto [dx, dy] = one_piece.get_mino(i);
-            playfield[x + dx][y + dy] = one_piece.get_color();
+            playfield[y + dy][x + dx] = one_piece.get_color();
         }
     }
 
-    void clear_row(){
-        
-
+    void clear_row() {
+        bool fl;
+        for (int i = 0; i < 22; i++) {
+            fl = true;
+            for (int j = 0; j < 10; j++) {
+                if (!playfield[i][j]) {
+                    fl = false;
+                    break;
+                }
+            }
+            if (fl) {
+                playfield.erase(playfield.begin() + i);
+                playfield.push_back(std::vector<int>(10, 0));
+                i--;
+            }
+        }
     }
 
     void process() {
         render();
-        if(one_piece.bottom){
+        if (one_piece.bottom) {
             add_piece_to_playfield();
             clear_row();
-            nq::pop();
-            one_piece = pick();
+            pick();
+            holded = false;
         }
         if (ut::timer(duration)) {
             one_piece.down();
@@ -60,33 +73,32 @@ namespace gm {
     void render() {
         frame = playfield;
 
-        
         // shade blocks
         auto [x1, y1] = one_piece.get_xy();
-        while (one_piece.test(x1, --y1))
-            ;
+        while (one_piece.test(x1, --y1));
         y1++;
         for (int i = 0; i < 4; i++) {
             auto [dx, dy] = one_piece.get_mino(i);
-            frame[x1 + dx][y1 + dy] = -one_piece.get_color();
+            frame[y1 + dy][x1 + dx] = -one_piece.get_color();
         }
 
         // colorful blocks
         auto [x2, y2] = one_piece.get_xy();
-        
+
         for (int i = 0; i < 4; i++) {
             auto [dx, dy] = one_piece.get_mino(i);
-            frame[x2 + dx][y2 + dy] = one_piece.get_color();
+            frame[y2 + dy][x2 + dx] = one_piece.get_color();
         }
 
-        if(y1==y2){
+        if (y1 == y2) {
             one_piece.bottom = true;
         }
     }
 
-    Piece pick() {
+    void pick() {
         // todo: pick the front of the queue
-        return Piece(id[nq::get()], 4, 20, 0, false, std::make_shared<Matrix>(playfield));
+        cur_id = nq::get();
+        one_piece = Piece(id[cur_id], 4, 20, 0, false, std::make_shared<Matrix>(playfield));
     }
 
     void quit() {
@@ -113,8 +125,20 @@ namespace gm {
         one_piece.right_rotate();
     }
 
-    void drop(){
+    void drop() {
         one_piece.drop();
+    }
+
+    void hold() {
+        if(holded) return ;
+        holded = true;
+        if (hold_id == -1) {
+            hold_id = cur_id;
+            pick();
+        } else {
+            std::swap(hold_id, cur_id);
+            one_piece = Piece(id[cur_id], 4, 20, 0, false, std::make_shared<Matrix>(playfield));
+        }
     }
 
 }  // namespace gm

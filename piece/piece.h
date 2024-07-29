@@ -14,11 +14,13 @@ namespace gm {
         void left_rotate();
         void right_rotate();
         void drop();
+        void init(Tetromino& t, int x0,int y0,int i,bool bt);
         std::pair<int, int> get_mino(int i);
         std::pair<int,int> get_xy();
         int get_color();
         bool test(int x, int y);
         bool bottom;
+
     private:
         
         

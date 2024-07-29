@@ -1,8 +1,14 @@
 #include "piece.h"
+#include "next_queue.h"
 
 namespace gm {
 
-    Piece::Piece(Tetromino& t, int x0, int y0, int i, bool bt, std::shared_ptr<Matrix> p_pf )
+    Piece::Piece(Tetromino& t,
+                int x0,
+                int y0,
+                int i,
+                bool bt,
+                std::shared_ptr<Matrix> p_pf)
         : tetr_set(t), x(x0), y(y0), index(i), bottom(bt), p_playfiled(p_pf) {}
 
     void Piece::down() {
@@ -21,14 +27,14 @@ namespace gm {
     }
 
     void Piece::left_rotate() {
-        index = (index+1)%4;
+        index = (index + 1) % 4;
     }
 
     void Piece::right_rotate() {
-        index = (index+3)%4;
+        index = (index + 3) % 4;
     }
 
-    void Piece::drop(){
+    void Piece::drop() {
         bottom = true;
     }
 
@@ -38,10 +44,10 @@ namespace gm {
             int xx = ox + dx;
             int yy = oy + dy;
             // boundary
-            if (xx < 0 || xx > (*p_playfiled).size() - 1 || yy < 0 ||
-                yy > (*p_playfiled)[0].size() - 1)
+            if (xx < 0 || xx > (*p_playfiled)[0].size() - 1 || yy < 0 ||
+                yy > (*p_playfiled).size() - 1)
                 return false;
-            if ((*p_playfiled)[xx][yy] > 0)
+            if ((*p_playfiled)[yy][xx] > 0)
                 return false;
         }
         return true;

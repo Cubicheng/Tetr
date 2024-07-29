@@ -4,7 +4,7 @@
 #include "tetromino.h"
 #include "utils.h"
 
-void dw::create_block(int top, int left, int width, int height, std::string title) {
+void dw::create_block(int top, int left, int width, int height, const std::string &title) {
 #define ch(a, b) ut::utf32_to_utf8({cur_style[a], cur_style[b]})
 
     //                              0123456
@@ -79,13 +79,13 @@ void dw::print_frame(Matrix& frame, int top, int left) {
             row = top + 20 - y - 1;
             col = left + x;
             tc::move_cursor_to(top + row, ut::b2c(col));
-            if (frame[x][y] > 0) {  // colorful block
+            if (frame[y][x] > 0) {  // colorful block
                 tc::reset_color();
-                tc::set_back_color(frame[x][y]);
+                tc::set_back_color(frame[y][x]);
                 std::cout << "  ";
-            } else if (frame[x][y] < 0) {  // shade block
+            } else if (frame[y][x] < 0) {  // shade block
                 tc::reset_color();
-                tc::set_back_color(-frame[x][y]);
+                tc::set_back_color(-frame[y][x]);
                 std::cout << "\u25e3\u25e5";
             } else {  // blank
                 tc::reset_color();
