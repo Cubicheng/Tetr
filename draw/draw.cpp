@@ -1,10 +1,16 @@
 #include "draw.h"
 #include <iostream>
+#include "next_queue.h"
 #include "terminal_control.h"
 #include "tetromino.h"
 #include "utils.h"
+#include "game.h"
 
-void dw::create_block(int top, int left, int width, int height, const std::string &title) {
+void dw::create_block(int top,
+                      int left,
+                      int width,
+                      int height,
+                      const std::string& title) {
 #define ch(a, b) ut::utf32_to_utf8({cur_style[a], cur_style[b]})
 
     //                              0123456
@@ -59,18 +65,6 @@ void dw::create_block(int top, int left, int width, int height, const std::strin
 //     }
 // }
 
-void dw::print_tetromino(Tetromino& t, int top, int left, int index) {
-    tc::move_cursor_to(top, ut::b2c(left));
-    tc::set_back_color(t[index][0].second);
-    std::cout << "  ";
-    for (auto p : t[index]) {
-        if (p.first > 'A')
-            continue;
-        tc::move_cursor_to(top - p.second, ut::b2c(left + p.first));
-        std::cout << "  ";
-    }
-}
-
 void dw::print_frame(Matrix& frame, int top, int left) {
     // frame x y --> row col
     int row, col;
@@ -93,4 +87,27 @@ void dw::print_frame(Matrix& frame, int top, int left) {
             }
         }
     }
+}
+
+void dw::print_tetromino(Tetromino& t, int top, int left, int index) {
+    tc::move_cursor_to(top, ut::b2c(left));
+    tc::set_back_color(t[index][0].second);
+    std::cout << "  ";
+    for (auto p : t[index]) {
+        if (p.first > 'A')
+            continue;
+        tc::move_cursor_to(top - p.second, ut::b2c(left + p.first));
+        std::cout << "  ";
+    }
+}
+
+void dw::print_next() {
+    for (int i = 0; i < 5; i++) {
+        print_tetromino(gm::id[nq::next_queue[i]],4+3*i,25,0);
+    }
+}
+
+void dw::print_hold() {
+    print_tetromino(gm::id[gm::hold_id],4,5,0);
+
 }

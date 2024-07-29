@@ -23,7 +23,11 @@ void loop() {
         dw::create_block(7, 1, 9, 16, "STATUS");
         dw::create_block(19, 22, 8, 4, "INFO");
         dw::create_block(1, 22, 8, 18, "NEXT");
+        dw::print_next();
+        dw::print_hold();
 
+
+        tc::reset_color();
         tc::move_cursor_to(10, 5);
         std::cout << "FPS:" << ut::fps();
 
