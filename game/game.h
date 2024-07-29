@@ -13,6 +13,8 @@ namespace gm{
     extern bool holded;
     extern Piece one_piece;
 
+    extern int points;
+
     
     extern Matrix playfield;
     extern Matrix frame;

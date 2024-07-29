@@ -1,8 +1,6 @@
 #include "utils.h"
 #include "..//define.h"
 
-using namespace std::chrono_literals;
-
 int ut::fps() {
     static auto start_time = std::chrono::steady_clock::now();
     static int frame_count = 0;

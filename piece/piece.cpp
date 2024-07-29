@@ -8,8 +8,15 @@ namespace gm {
                 int y0,
                 int i,
                 bool bt,
+                int bt_cnt,
                 std::shared_ptr<Matrix> p_pf)
-        : tetr_set(t), x(x0), y(y0), index(i), bottom(bt), p_playfiled(p_pf) {}
+        : tetr_set(t),
+        x(x0),
+        y(y0),
+        index(i),
+        bottom(bt),
+        bottom_cnt(bt_cnt),
+        p_playfiled(p_pf) {}
 
     void Piece::down() {
         if (test(x, y - 1))
@@ -35,7 +42,7 @@ namespace gm {
     }
 
     void Piece::drop() {
-        bottom = true;
+        bottom_cnt = 114514;
     }
 
     bool Piece::test(int ox, int oy) {

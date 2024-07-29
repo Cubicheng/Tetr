@@ -28,8 +28,14 @@ void loop() {
 
 
         tc::reset_color();
-        tc::move_cursor_to(10, 5);
-        std::cout << "FPS:" << ut::fps();
+        tc::move_cursor_to(10, 7);
+        std::cout << "FPS: " << ut::fps();
+
+
+        tc::move_cursor_to(12, 5);
+        std::cout << "POINTS: " << gm::points;
+
+
 
         dw::print_frame(gm::frame,1,11);
 

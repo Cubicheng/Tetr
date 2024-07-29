@@ -11,9 +11,13 @@ namespace gm {
     int cur_id;
     int hold_id;
     bool holded;
+    int points;
     std::chrono::microseconds duration;
     std::map<int, Tetromino> id{{0, I}, {1, J}, {2, L}, {3, O},
                                 {4, S}, {5, T}, {6, Z}};
+
+    static auto bottom_start_time = std::chrono::steady_clock::now();
+    auto bottom_end_time = bottom_start_time;
 
     void init() {
         nq::init();
@@ -23,9 +27,11 @@ namespace gm {
         duration = 500ms;
         frame = playfield;
         cur_id = nq::get();
-        one_piece = Piece(id[cur_id],4,20,0,false,std::make_shared<Matrix>(playfield));
+        one_piece = Piece(id[cur_id], 4, 20, 0, false, 0,
+                        std::make_shared<Matrix>(playfield));
         hold_id = -1;
         holded = false;
+        points = 0;
     }
 
     void add_piece_to_playfield() {
@@ -50,6 +56,7 @@ namespace gm {
                 }
             }
             if (fl) {
+                points++;
                 playfield.erase(playfield.begin() + i);
                 playfield.push_back(std::vector<int>(10, 0));
                 i--;
@@ -59,7 +66,10 @@ namespace gm {
 
     void process() {
         render();
-        if (one_piece.bottom) {
+        bottom_end_time = std::chrono::steady_clock::now();
+        if ((one_piece.bottom && (one_piece.bottom_cnt >= 15 ||
+                                bottom_end_time - bottom_start_time > 2*duration)) ||
+            one_piece.bottom_cnt >= 114514) {
             add_piece_to_playfield();
             clear_row();
             pick();
@@ -75,7 +85,8 @@ namespace gm {
 
         // shade blocks
         auto [x1, y1] = one_piece.get_xy();
-        while (one_piece.test(x1, --y1));
+        while (one_piece.test(x1, --y1))
+            ;
         y1++;
         for (int i = 0; i < 4; i++) {
             auto [dx, dy] = one_piece.get_mino(i);
@@ -91,14 +102,21 @@ namespace gm {
         }
 
         if (y1 == y2) {
-            one_piece.bottom = true;
+            if (!one_piece.bottom) {
+                one_piece.bottom_cnt++;
+                one_piece.bottom = true;
+            }
+        } else {
+            one_piece.bottom = false;
+            bottom_start_time = std::chrono::steady_clock::now();
         }
     }
 
     void pick() {
         // todo: pick the front of the queue
         cur_id = nq::get();
-        one_piece = Piece(id[cur_id], 4, 20, 0, false, std::make_shared<Matrix>(playfield));
+        one_piece = Piece(id[cur_id], 4, 20, 0, false, 0,
+                        std::make_shared<Matrix>(playfield));
     }
 
     void quit() {
@@ -130,14 +148,16 @@ namespace gm {
     }
 
     void hold() {
-        if(holded) return ;
+        if (holded)
+            return;
         holded = true;
         if (hold_id == -1) {
             hold_id = cur_id;
             pick();
         } else {
             std::swap(hold_id, cur_id);
-            one_piece = Piece(id[cur_id], 4, 20, 0, false, std::make_shared<Matrix>(playfield));
+            one_piece = Piece(id[cur_id], 4, 20, 0, false, 0,
+                            std::make_shared<Matrix>(playfield));
         }
     }
 
