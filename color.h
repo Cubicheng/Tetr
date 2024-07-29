@@ -2,10 +2,10 @@
 
 enum Color{
     Cyan = 43,
-    Red = 9,
+    Red = 196,
     Orange = 3,
-    Yellow = 185,
-    Green = 155,
+    Yellow = 226,
+    Green = 77,
     Purple = 105,
-    Pink = 5
+    Pink = 207
 };

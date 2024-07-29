@@ -1,5 +1,6 @@
 #include "game.h"
 #include "utils.h"
+#include "next_queue.h"
 
 namespace gm {
 
@@ -8,8 +9,18 @@ namespace gm {
     Matrix playfield;
     Matrix frame;
     std::chrono::microseconds duration;
+    std::map<int,Tetromino> id{
+        {0,I},
+        {1,J},
+        {2,L},
+        {3,O},
+        {4,S},
+        {5,T},
+        {6,Z}
+    };
 
     void init() {
+        nq::init();
         running = true;
         // playfield[x][y] x=0~9 y=0~21
         playfield = Matrix(10, std::vector<int>(22, 0));
@@ -38,6 +49,7 @@ namespace gm {
         if(one_piece.bottom){
             add_piece_to_playfield();
             clear_row();
+            nq::pop();
             one_piece = pick();
         }
         if (ut::timer(duration)) {
@@ -74,7 +86,7 @@ namespace gm {
 
     Piece pick() {
         // todo: pick the front of the queue
-        return Piece(J, 4, 20, 0, false, std::make_shared<Matrix>(playfield));
+        return Piece(id[nq::get()], 4, 20, 0, false, std::make_shared<Matrix>(playfield));
     }
 
     void quit() {

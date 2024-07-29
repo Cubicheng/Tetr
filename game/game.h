@@ -2,6 +2,7 @@
 
 #include "tetromino.h"
 #include "piece.h"
+# include "..//define.h"
 
 namespace gm{
 
@@ -13,6 +14,7 @@ namespace gm{
     
     extern Matrix playfield;
     extern Matrix frame;
+    extern std::map<int,Tetromino> id;
 
 
     extern std::chrono::microseconds duration;
