@@ -4,6 +4,9 @@
 
 namespace gm {
 
+    extern std::vector<std::pair<int,int>> kick_transation;
+    extern std::map<char,Offset> name_to_offset;
+
     class Piece {
     public:
         Piece(Tetromino& t, int x0, int y0, int i, bool bt,int bt_cnt,std::shared_ptr<Matrix> p_pf);
@@ -13,6 +16,7 @@ namespace gm {
         void right();
         void left_rotate();
         void right_rotate();
+        void rotate(int op);
         void drop();
         std::pair<int, int> get_mino(int i);
         std::pair<int,int> get_xy();

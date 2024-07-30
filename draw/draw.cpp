@@ -108,6 +108,7 @@ void dw::print_next() {
 }
 
 void dw::print_hold() {
-    print_tetromino(gm::id[gm::hold_id],4,5,0);
-
+    Tetromino tmp = gm::id[gm::hold_id];
+    if(gm::holded) tmp[0][0].second = 250;
+    print_tetromino(tmp,4,5,0);
 }

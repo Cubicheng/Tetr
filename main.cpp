@@ -10,6 +10,7 @@ void init() {
     tc::hide_cursor();
     gm::start_listner();
     gm::init();
+    srand(time(0));
 }
 
 void loop() {

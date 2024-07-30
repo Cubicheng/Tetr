@@ -1,10 +1,12 @@
 #include "next_queue.h"
+#include "utils.h"
 
 namespace nq {
     std::vector<int> next_queue;
     int pack[7];
 
     void init() {
+        srand(time(0));
         for (int i = 0; i < 7; i++)
             pack[i] = i;
         while (next_queue.size())
@@ -13,7 +15,7 @@ namespace nq {
     }
 
     void add_new_pack() {
-        std::random_shuffle(pack, pack + 7);
+        std::random_shuffle(pack, pack + 7, ut::my_rand);
         for (int i = 0; i < 7; i++) {
             next_queue.push_back(pack[i]);
         }

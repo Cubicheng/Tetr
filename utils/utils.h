@@ -14,4 +14,6 @@ namespace ut{
 
     bool timer(std::chrono::microseconds sec);
 
+    int my_rand(int i);
+
 }

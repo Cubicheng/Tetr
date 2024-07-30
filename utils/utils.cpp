@@ -29,3 +29,7 @@ bool ut::timer(std::chrono::microseconds sec) {
     }
     return false;
 }
+
+int ut::my_rand(int i) {
+    return std::rand()%i;
+}
