@@ -3,12 +3,7 @@
 
 namespace gm {
 
-    std::vector<std::pair<int, int>> kick_transation(5);
-
-    std::map<char, Offset> name_to_offset{
-        {'I', offset_I},      {'O', offset_O},      {'Z', offset_normal},
-        {'S', offset_normal}, {'J', offset_normal}, {'L', offset_normal},
-        {'T', offset_normal}};
+    std::vector<std::pair<int, int> > kick_transation(5);
 
     Piece::Piece(Tetromino& t,
                 int x0,
@@ -50,7 +45,13 @@ namespace gm {
 
     void Piece::rotate(int op) {
         int new_index = (index + op) % 4;
-        Offset& offset = name_to_offset[tetr_set[0][0].first];
+        Offset offset;
+        if (tetr_set[0][0].first == 'I')
+            offset = offset_I;
+        else if(tetr_set[0][0].first == 'O')
+            offset = offset_O;
+        else 
+            offset = offset_normal;
         for (int i = 0; i < 5; i++) {
             kick_transation[i].first = offset[index][i].first - offset[new_index][i].first;
             kick_transation[i].second = offset[index][i].second - offset[new_index][i].second;

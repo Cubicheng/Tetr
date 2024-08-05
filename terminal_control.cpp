@@ -1,6 +1,6 @@
 #include "terminal_control.h"
 #include <iostream>
-#include <windows.h>
+#include "define.h"
 
 #define CSI "\033["
 
@@ -25,11 +25,7 @@ void tc::set_back_color(int id) {
 }
 
 void tc::clean_screen() {
-    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);//在C语言中表示：从bai一个du特定的标
-    COORD pos;                                      //  准zhi设备dao（标准输出）中取得一个句柄（用来标识不同设备的数值）。 
-    pos.X = 0;
-    pos.Y = 0;//COORD pos = {x,y}; //定义COORD结构的实bai例pos，初始化参数用x和y，即dupos.x=x; pos.y=y;
-    SetConsoleCursorPosition(handle,pos);
+    cleardevice();
 }
 
 void tc::reset_color() {

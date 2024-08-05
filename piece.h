@@ -1,11 +1,10 @@
 #pragma once
-#include "..//define.h"
+#include "define.h"
 #include "tetromino.h"
 
 namespace gm {
 
     extern std::vector<std::pair<int,int>> kick_transation;
-    extern std::map<char,Offset> name_to_offset;
 
     class Piece {
     public:

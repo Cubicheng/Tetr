@@ -1,11 +1,6 @@
 #pragma once
 
 namespace gm {
-    extern char command;
-
-    #ifdef __linux__
-    char getch();
-    #endif
 
     void keyboard_event();
     void start_listner();

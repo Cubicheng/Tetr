@@ -2,7 +2,7 @@
 
 #include "tetromino.h"
 #include "piece.h"
-# include "..//define.h"
+# include "define.h"
 
 namespace gm{
 

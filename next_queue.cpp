@@ -1,5 +1,6 @@
 #include "next_queue.h"
 #include "utils.h"
+#include <random>
 
 namespace nq {
     std::vector<int> next_queue;
@@ -15,7 +16,9 @@ namespace nq {
     }
 
     void add_new_pack() {
-        std::random_shuffle(pack, pack + 7, ut::my_rand);
+        std::random_device rd;
+        std::mt19937 rng(rd());
+        std::shuffle(pack, pack + 7, rng);
         for (int i = 0; i < 7; i++) {
             next_queue.push_back(pack[i]);
         }

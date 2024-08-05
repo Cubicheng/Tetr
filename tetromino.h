@@ -1,6 +1,6 @@
 #pragma once
-#include "..//define.h"
-#include "..//color.h"
+#include "define.h"
+#include "color.h"
 
 namespace gm {
 

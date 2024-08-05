@@ -1,5 +1,5 @@
 # pragma once
-# include "..//define.h"
+# include "define.h"
 
 namespace nq{
     extern std::vector<int> next_queue;

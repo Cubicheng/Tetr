@@ -1,6 +1,7 @@
 #include "game.h"
 #include "next_queue.h"
 #include "utils.h"
+#include "music.h"
 
 namespace gm {
 
@@ -56,6 +57,7 @@ namespace gm {
                 }
             }
             if (fl) {
+                //mus::clearline();
                 points++;
                 playfield.erase(playfield.begin() + i);
                 playfield.push_back(std::vector<int>(10, 0));
@@ -103,6 +105,7 @@ namespace gm {
 
         if (y1 == y2) {
             if (!one_piece.bottom) {
+                //mus::hit();
                 one_piece.bottom_cnt++;
                 one_piece.bottom = true;
             }
@@ -125,14 +128,17 @@ namespace gm {
 
     void left() {
         one_piece.left();
+        //mus::floor();
     }
 
     void right() {
         one_piece.right();
+        //mus::floor();
     }
 
     void down() {
         one_piece.down();
+        //mus::floor();
     }
 
     void left_rotate() {
@@ -145,6 +151,7 @@ namespace gm {
 
     void drop() {
         one_piece.drop();
+        //mus::harddrop();
     }
 
     void hold() {
@@ -154,6 +161,7 @@ namespace gm {
         if (hold_id == -1) {
             hold_id = cur_id;
             pick();
+            //mus::hold();
         } else {
             std::swap(hold_id, cur_id);
             one_piece = Piece(id[cur_id], 4, 20, 0, false, 0,
