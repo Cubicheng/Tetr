@@ -1,3 +1,3 @@
 # tetris
 
-A tetris game running on terminal board.
+A tetris game created with easyx
