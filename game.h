@@ -19,9 +19,14 @@ namespace gm{
     extern Matrix playfield;
     extern Matrix frame;
     extern std::map<int,Tetromino> id;
+    extern bool warning;
+
+    extern int cnt_blocks;
 
 
     extern DWORD duration;
+    extern DWORD begin_time;
+    extern DWORD now_time;
     
     void render();
 
@@ -39,6 +44,7 @@ namespace gm{
     void hold();
     void add_piece_to_playfield();
     void clear_row();
+    void check_warning();
 
     // extern int row, col;
     // extern Tetromino cur_set;

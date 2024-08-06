@@ -33,7 +33,9 @@ void loop() {
         dw::print_next();
         dw::print_hold();
         dw::print_fps();
+        dw::print_pps();
         dw::print_points();
+        dw::print_time();
 
         dw::print_frame(gm::frame,60,480);
 
@@ -44,6 +46,7 @@ void loop() {
 }
 
 void exit() {
+    mus::warning_end();
     MessageBox(GetHWnd(), _T("Å¶°¡°¡ÚÀÚÀ°¡"), _T("ÓÎÏ·½áÊø"), MB_OK);
     EndBatchDraw();
 }

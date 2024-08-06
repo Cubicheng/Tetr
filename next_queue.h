@@ -7,4 +7,4 @@ namespace nq{
     int get();
     void init();
     void add_new_pack();
-    }  // namespace nq
+}  // namespace nq

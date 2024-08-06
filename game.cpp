@@ -5,6 +5,9 @@
 
 namespace gm {
 
+
+    DWORD begin_time;
+    DWORD now_time;
     bool running;
     Piece one_piece;
     Matrix playfield;
@@ -14,6 +17,7 @@ namespace gm {
     bool holded;
     int points;
     int cnt_blocks;
+    bool warning;
     DWORD duration;
     std::map<int, Tetromino> id{{0, I}, {1, J}, {2, L}, {3, O},
                                 {4, S}, {5, T}, {6, Z}};
@@ -24,6 +28,7 @@ namespace gm {
     void init() {
         nq::init();
         running = true;
+        warning = false;
         cnt_blocks = 0;
         // playfield[x][y] x=0~9 y=0~21
         playfield = Matrix(22, std::vector<int>(10, 0));
@@ -35,6 +40,7 @@ namespace gm {
         hold_id = -1;
         holded = false;
         points = 0;
+        begin_time = GetTickCount();
     }
 
     void add_piece_to_playfield() {
@@ -68,7 +74,19 @@ namespace gm {
         }
     }
 
+    void check_warning() {
+        int max_y = 0;
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 20; y++) {
+                if (y > max_y && playfield[y][x] > 0) max_y = y;
+            }
+        }
+        if (max_y > 16) warning = true;
+        else warning = false;
+    }
+
     void process() {
+        check_warning();
         render();
         bottom_end_time = GetTickCount();
         if ((one_piece.bottom && (one_piece.bottom_cnt >= 15 ||
@@ -79,12 +97,13 @@ namespace gm {
             pick();
             cnt_blocks++;
             duration = 500 - cnt_blocks * cnt_blocks / 100;
-            std::cout << duration << std::endl;
             holded = false;
         }
         if (ut::timer(duration)) {
             one_piece.down();
         }
+        if (warning) mus::warning_start();
+        else mus::warning_end();
     }
 
     void render() {
