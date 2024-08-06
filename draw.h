@@ -17,4 +17,6 @@ namespace dw {
     void put_img(int x, int y, IMAGE* img);
     void print_next();
     void print_hold();
+    void print_fps();
+    void print_points();
 }  // namespace dw

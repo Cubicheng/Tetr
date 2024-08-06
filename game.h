@@ -21,7 +21,7 @@ namespace gm{
     extern std::map<int,Tetromino> id;
 
 
-    extern std::chrono::microseconds duration;
+    extern DWORD duration;
     
     void render();
 

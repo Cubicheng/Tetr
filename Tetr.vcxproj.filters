@@ -36,9 +36,6 @@
     <ClCompile Include="piece.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="terminal_control.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="utils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -66,9 +63,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="piece.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="terminal_control.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">

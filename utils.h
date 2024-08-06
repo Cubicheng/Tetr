@@ -10,7 +10,7 @@ namespace ut{
         return 2*b - 1;
     }
 
-    bool timer(std::chrono::microseconds sec);
+    bool timer(DWORD sec);
 
     int my_rand(int i);
 

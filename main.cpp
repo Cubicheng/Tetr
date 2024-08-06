@@ -2,7 +2,6 @@
 #include "define.h"
 #include "draw.h"
 #include "game.h"
-#include "terminal_control.h"
 #include "tetromino.h"
 #include "utils.h"
 #include "graphics.h"
@@ -19,6 +18,8 @@ void init() {
 
 void loop() {
 
+    mus::bgm();
+
     while (gm::running) {
 
         ut::frame_start_time = GetTickCount();
@@ -31,6 +32,8 @@ void loop() {
         gm::process();
         dw::print_next();
         dw::print_hold();
+        dw::print_fps();
+        dw::print_points();
 
         dw::print_frame(gm::frame,60,480);
 
@@ -41,12 +44,7 @@ void loop() {
 }
 
 void exit() {
-    tc::show_cursor();
-    tc::reset_color();
-    tc::clean_screen();
-    tc::move_cursor_to(0, 0);
-    tc::set_fore_color(9);
-    std::cout << "Bye!\n";
+    MessageBox(GetHWnd(), _T("Å¶°¡°¡ÚÀÚÀ°¡"), _T("ÓÎÏ·½áÊø"), MB_OK);
     EndBatchDraw();
 }
 

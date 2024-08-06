@@ -13,19 +13,21 @@ namespace gm {
     int hold_id;
     bool holded;
     int points;
-    std::chrono::microseconds duration;
+    int cnt_blocks;
+    DWORD duration;
     std::map<int, Tetromino> id{{0, I}, {1, J}, {2, L}, {3, O},
                                 {4, S}, {5, T}, {6, Z}};
 
-    static auto bottom_start_time = std::chrono::steady_clock::now();
-    auto bottom_end_time = bottom_start_time;
+    static DWORD bottom_start_time = GetTickCount();
+    DWORD bottom_end_time = bottom_start_time;
 
     void init() {
         nq::init();
         running = true;
+        cnt_blocks = 0;
         // playfield[x][y] x=0~9 y=0~21
         playfield = Matrix(22, std::vector<int>(10, 0));
-        duration = 500ms;
+        duration = 500;
         frame = playfield;
         cur_id = nq::get();
         one_piece = Piece(id[cur_id], 4, 20, 0, false, 0,
@@ -57,7 +59,7 @@ namespace gm {
                 }
             }
             if (fl) {
-                //mus::clearline();
+                mus::clearline();
                 points++;
                 playfield.erase(playfield.begin() + i);
                 playfield.push_back(std::vector<int>(10, 0));
@@ -68,13 +70,16 @@ namespace gm {
 
     void process() {
         render();
-        bottom_end_time = std::chrono::steady_clock::now();
+        bottom_end_time = GetTickCount();
         if ((one_piece.bottom && (one_piece.bottom_cnt >= 15 ||
-                                bottom_end_time - bottom_start_time > 2*duration)) ||
+                                bottom_end_time - bottom_start_time > 1000)) ||
             one_piece.bottom_cnt >= 114514) {
             add_piece_to_playfield();
             clear_row();
             pick();
+            cnt_blocks++;
+            duration = 500 - cnt_blocks * cnt_blocks / 100;
+            std::cout << duration << std::endl;
             holded = false;
         }
         if (ut::timer(duration)) {
@@ -95,6 +100,10 @@ namespace gm {
             frame[y1 + dy][x1 + dx] = -one_piece.get_color();
         }
 
+        if (!one_piece.test(x1, y1)) {
+            gm::running = false;
+        }
+
         // colorful blocks
         auto [x2, y2] = one_piece.get_xy();
 
@@ -105,13 +114,13 @@ namespace gm {
 
         if (y1 == y2) {
             if (!one_piece.bottom) {
-                //mus::hit();
+                mus::hit();
                 one_piece.bottom_cnt++;
                 one_piece.bottom = true;
             }
         } else {
             one_piece.bottom = false;
-            bottom_start_time = std::chrono::steady_clock::now();
+            bottom_start_time = GetTickCount();
         }
     }
 
@@ -128,17 +137,17 @@ namespace gm {
 
     void left() {
         one_piece.left();
-        //mus::floor();
+        mus::floor();
     }
 
     void right() {
         one_piece.right();
-        //mus::floor();
+        mus::floor();
     }
 
     void down() {
         one_piece.down();
-        //mus::floor();
+        mus::floor();
     }
 
     void left_rotate() {
@@ -151,7 +160,7 @@ namespace gm {
 
     void drop() {
         one_piece.drop();
-        //mus::harddrop();
+        mus::harddrop();
     }
 
     void hold() {
@@ -161,7 +170,7 @@ namespace gm {
         if (hold_id == -1) {
             hold_id = cur_id;
             pick();
-            //mus::hold();
+            mus::hold();
         } else {
             std::swap(hold_id, cur_id);
             one_piece = Piece(id[cur_id], 4, 20, 0, false, 0,

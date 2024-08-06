@@ -1,7 +1,6 @@
 #include "draw.h"
 #include <iostream>
 #include "next_queue.h"
-#include "terminal_control.h"
 #include "tetromino.h"
 #include "utils.h"
 #include "game.h"
@@ -112,5 +111,21 @@ namespace dw {
         Tetromino tmp = gm::id[gm::hold_id];
         if (gm::holded) tmp[0][0].second = 8;
         print_tetromino(tmp, 5, 12, 0);
+    }
+    void print_fps(){
+        static TCHAR text[64];
+        _stprintf_s(text, _T("FPS: %d"), ut::fps());
+        settextstyle(15, 0, _T("Consolas"));
+        setbkmode(TRANSPARENT);
+        settextcolor(RGB(255, 255, 255));
+        outtextxy(10, 10, text);
+    }
+    void print_points(){
+        static TCHAR text[64];
+        _stprintf_s(text, _T("POINTS: %d"), gm::points);
+        settextstyle(30, 0, _T("Consolas"));
+        setbkmode(TRANSPARENT);
+        settextcolor(RGB(255, 255, 255));
+        outtextxy(300, 500, text);
     }
 }

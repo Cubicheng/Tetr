@@ -21,9 +21,9 @@ namespace ut {
         return fps;
     }
 
-    bool timer(std::chrono::microseconds sec) {
-        static auto start_time = std::chrono::steady_clock::now();
-        auto end_time = std::chrono::steady_clock::now();
+    bool timer(DWORD sec) {
+        static DWORD start_time = GetTickCount();
+        DWORD end_time = GetTickCount();
         if (end_time - start_time > sec) {
             start_time = end_time;
             return true;
