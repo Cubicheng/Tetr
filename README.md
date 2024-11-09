@@ -2,5 +2,5 @@ tetris
 
 A tetris game created with easyx
 
-![image-20241109145247778](https://github.com/user-attachments/assets/3f7efbbb-dde9-4a2f-85a0-29d963da3a47)
+![image](https://github.com/user-attachments/assets/7ba6e0d2-b9ba-47a0-8db9-cb9aa1f22141)
 
